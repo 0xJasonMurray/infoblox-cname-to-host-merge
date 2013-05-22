@@ -1,0 +1,88 @@
+OVERVIEW
+========
+This script is for Infoblox users to be able to automatically merge standalone CNAME
+records into an existing Host records Aliases tab.
+
+If you have a number of standalone CNAME records that point to an existing Host record, 
+it may be easier to manage these CNAME records under the Aliases tab of the existing
+Host record.   There is no easy way merge these standalone CNAME records into a Host 
+record without deleting each one then readding them into the Hosts aliases.   
+
+This script will automate the entire process. 
+
+
+
+
+Example Syntax (display only, do not modify)
+============================================
+$ ./ibxMoveCnameToHost.pl -g grid.example.com -u admin -p -h alias.example.com --dns 10.0.0.1
+password for user [admin]:  
+
+Found host record: alias.example.com
+	Existing HOST aliases: alias1.example.com
+	Existing HOST aliases: alias2.example.com
+	2 CNAME objects can be merged into alias.example.com:
+		Standalone CNAME record: alias3.example.com
+		Standalone CNAME record: alias4.example.com
+
+
+Example Syntax (modify the record)
+==================================
+$ ./ibxMoveCnameToHost.pl -g grid.example.com -u admin -p -h alias.example.com --dns 10.0.0.1 -m
+password for user [admin]:
+
+Found host record: alias.example.com
+        Existing HOST aliases: hostalias1.example.com
+        Existing HOST aliases: hostalias2.example.com
+        Existing HOST aliases: hostalias3.example.com
+        Existing HOST aliases: cname1.example.com
+        Existing HOST aliases: cname2.example.com
+        3 CNAME objects can be merged into alias.example.com:
+                Standalone CNAME record: cname3.example.com
+--> Removing cname: cname3.example.com: SUCCESS
+++> Adding alias: cname3.example.com: SUCCESS
+                Standalone CNAME record: cname4.example.com
+--> Removing cname: cname4.example.com: SUCCESS
+++> Adding alias: cname4.example.com: SUCCESS
+                Standalone CNAME record: cname5.example.com
+--> Removing cname: cname5.example.com: SUCCESS
+++> Adding alias: cname5.example.com: SUCCESS
+
+
+
+
+
+Installation
+============
+Make sure the following Perl modules are installed:
+
+	Getopt::Long
+	Data::Dumper
+	Infoblox
+	Term::Prompt
+	Data::Dumper
+	Net::DNS
+
+They can be installed using either your OS package manager (example):
+
+	apt-get install libterm-prompt-perl
+	
+or Perl CPAN:
+
+	 perl -MCPAN -e shell
+	 cpan[1]> install Term::Prompt
+	 
+	 
+
+As a side note, as of Ubuntu 12.04.02 LTS Server 64bit, some of the stock 
+Perl libraries were not working with the Infoblox API.  CPAN was used to 
+install the necessary modules.
+
+
+	
+CREDITS
+=======
+Initial Infoblox script template by: Patrick H. Piper
+Special thanks to: Washington University in St. Louis for being a great 
+	place to work.
+Everything else by: Jason E. Murray
